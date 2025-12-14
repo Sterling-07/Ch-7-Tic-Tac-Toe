@@ -8,7 +8,7 @@ using namespace std;
 void initializeBoard(char board[3][3]);
 void displayBoard(char board[3][3]);
 void placeToken(char board[3][3], int &token, int& column, int& row);
-void getLocation(char board[3][3], int &column, int &row);
+void getLocation(char board[3][3], int &column, int &row, int& token);
 void getBoardState(char board[3][3], int &token, int &state);
 int checkForWinner(char board[3][3], int &token);
 
@@ -24,22 +24,25 @@ int main()
 	do
 	{
 		displayBoard(board);
-		getLocation(board, column, row);
+		getLocation(board, column, row, token);
 		placeToken(board, token, column, row);
 		getBoardState(board, token, state);
-		
+		token = (token == 1 ? 2 : 1);
 	} while (state == 0);
 	if (state == 1)
 	{
 		cout << "Player 1 has won the game.\n";
+		displayBoard(board);
 	}
 	if (state == 2)
 	{
 		cout << "Player 2 has won the game.\n";
+		displayBoard(board);
 	}
 	else if (state == 3)
 	{
 		cout << "There was a tie.\n";
+		displayBoard(board);
 	}
 
 	return 0;
@@ -77,6 +80,7 @@ void placeToken(char board[3][3], int &token, int &column, int &row)
 {
 	int a = row - 1;
 	int b = column - 1;
+
 	if (board[a][b] == '*')
 	{
 		if (token == 1)
@@ -90,12 +94,14 @@ void placeToken(char board[3][3], int &token, int &column, int &row)
 	}
 	else
 	{
-		cout << "This spot is alreay taken.\n";
+		cout << "This spot is already taken.\n";
 	}
+	
 }
 
-void getLocation(char board[3][3], int &column, int &row)
+void getLocation(char board[3][3], int &column, int &row, int& token)
 {
+	cout << "Player " << token << "'s turn.\n";
 	do
 	{
 		cout << "Please enter the row number (must be 1, 2, or 3): ";
